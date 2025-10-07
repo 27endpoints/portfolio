@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects - Django AI Prototype Architect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Hero Section */
+        .page-hero {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .page-hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Projects Grid */
+        .projects-section {
+            padding: 80px 0;
+        }
+
+        .projects-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 2px solid var(--gray-light);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(37, 99, 235, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .project-link {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .project-link:hover {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            background: var(--gray-light);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-tag.django {
+            background: #0c4b33;
+            color: white;
+        }
+
+        .project-tag.ai {
+            background: var(--primary);
+            color: white;
+        }
+
+        .project-tag.python {
+            background: #3776ab;
+            color: white;
+        }
+
+        .project-tag.react {
+            background: #61dafb;
+            color: black;
+        }
+
+        .project-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .project-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .project-duration {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .project-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-complete {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-in-progress {
+            background: #fef3c7;
+            color: #92400e;
+        }
+         /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--gray-light);
+            border-radius: 50%;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Project Modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 50px auto;
+            width: 90%;
+            max-width: 1000px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .modal-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .modal-gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        .modal-links {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .modal-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .modal-link:hover {
+            background: var(--primary-dark);
+        }
+
+        .modal-link.github {
+            background: #333;
+        }
+
+        .modal-link.github:hover {
+            background: #555;
+        }
+
+        .modal-link.youtube {
+            background: #ff0000;
+        }
+
+        .modal-link.youtube:hover {
+            background: #cc0000;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">DAIPA</div>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="projects.html" class="active">Projects</a>
+                    <a href="index.html#about">About</a>
+                    <a href="index.html#comparison">Approach</a>
+                    <a href="index.html#services">Services</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>My Projects</h1>
+            <p>Showcasing rapid prototypes and proof-of-concept applications built with Django and AI assistance</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="container">
+            <!-- Projects Filter -->
+            <div class="projects-filter">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="django">Django</button>
+                <button class="filter-btn" data-filter="ai">AI Integration</button>
+                <button class="filter-btn" data-filter="rapid">Rapid Prototypes</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card" data-categories="django ai rapid">
+                    <div class="project-image">
+                        <img src="images/project1-screenshot.jpg" alt="AI-Powered E-commerce Prototype">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link view-details" data-project="1">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                                <a href="https://github.com/yourusername/project1" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://youtube.com/your-demo" class="project-link" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag django">Django</span>
+                            <span class="project-tag ai">AI Integration</span>
+                            <span class="project-tag rapid">Rapid Prototype</span>
+                        </div>
+                        <h3>AI-Powered E-commerce Prototype</h3>
+                        <p>Built a functional e-commerce POC with AI-powered product recommendations and chatbot integration in 72 hours.</p>
+                        <div class="project-meta">
+                            <span class="project-duration">3 days development</span>
+                            <span class="project-status status-complete">Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" data-categories="django rapid">
+                    <div class="project-image">
+                        <img src="images/project2-screenshot.jpg" alt="Real Estate Management System">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link view-details" data-project="2">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                                <a href="https://github.com/yourusername/project2" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://youtube.com/your-demo" class="project-link" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag django">Django</span>
+                            <span class="project-tag python">Python</span>
+                            <span class="project-tag rapid">Rapid Prototype</span>
+                        </div>
+                        <h3>Real Estate Management System</h3>
+                        <p>Developed a property management POC with booking system, payment integration, and admin dashboard in 48 hours.</p>
+                        <div class="project-meta">
+                            <span class="project-duration">2 days development</span>
+                            <span class="project-status status-complete">Completed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" data-categories="django ai">
+                    <div class="project-image">
+                        <img src="images/project3-screenshot.jpg" alt="Healthcare Analytics Dashboard">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link view-details" data-project="3">
+                                    <i class="fas fa-expand"></i>
+                                </a>
+                                <a href="https://github.com/yourusername/project3" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://youtube.com/your-demo" class="project-link" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag django">Django</span>
+                            <span class="project-tag ai">AI Integration</span>
+                            <span class="project-tag python">Python</span>
+                        </div>
+                        <h3>Healthcare Analytics Dashboard</h3>
+                        <p>Created a medical data visualization POC with predictive analytics and real-time reporting features.</p>
+                        <div class="project-meta">
+                            <span class="project-duration">4 days development</span>
+                            <span class="project-status status-in-progress">In Progress</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more project cards as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modals -->
+    <!-- Modal for Project 1 -->
+    <div class="project-modal" id="modal-1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>AI-Powered E-commerce Prototype</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-gallery">
+                    <img src="images/project1-screenshot.jpg" alt="Project 1 Screenshot 1">
+                    <img src="images/project1-detail1.jpg" alt="Project 1 Screenshot 2">
+                    <img src="images/project1-detail2.jpg" alt="Project 1 Screenshot 3">
+                </div>
+                
+                <div class="modal-links">
+                    <a href="https://github.com/yourusername/project1" class="modal-link github" target="_blank">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                    <a href="https://youtube.com/your-demo" class="modal-link youtube" target="_blank">
+                        <i class="fab fa-youtube"></i> Watch Demo
+                    </a>
+                    <a href="#" class="modal-link">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                </div>
+
+                <h3>Project Overview</h3>
+                <p>This e-commerce prototype was developed in just 72 hours to validate the concept of AI-powered product recommendations. The system includes user authentication, product catalog, shopping cart, and an intelligent recommendation engine.</p>
+
+                <h3>Key Features</h3>
+                <ul>
+                    <li>AI-powered product recommendations based on user behavior</li>
+                    <li>Integrated chatbot for customer support</li>
+                    <li>Secure payment gateway integration</li>
+                    <li>Real-time inventory management</li>
+                    <li>Responsive design for all devices</li>
+                </ul>
+
+                <h3>Technologies Used</h3>
+                <div class="project-tags">
+                    <span class="project-tag django">Django</span>
+                    <span class="project-tag python">Python</span>
+                    <span class="project-tag ai">Machine Learning</span>
+                    <span class="project-tag">PostgreSQL</span>
+                    <span class="project-tag">Redis</span>
+                </div>
+
+                <h3>Development Timeline</h3>
+                <p><strong>Duration:</strong> 3 days (72 hours)</p>
+                <p><strong>Result:</strong> Functional POC that successfully validated the business concept and secured funding for full development.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add more modals for other projects -->
+
+    <!-- Footer -->
+   <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">DAIPA</div>
+                <p>Django AI Prototype Architect - Bridging Ideas & Technical Execution</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/lethukuthula-masinga-55497a388" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/yourprofile" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://twitter.com/yourprofile" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+                <p>&copy; 2025 Your Name. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Project Filtering
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+
+                // Filter projects
+                const filter = button.getAttribute('data-filter');
+                const projects = document.querySelectorAll('.project-card');
+
+                projects.forEach(project => {
+                    if (filter === 'all' || project.getAttribute('data-categories').includes(filter)) {
+                        project.style.display = 'block';
+                    } else {
+                        project.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Project Modal functionality
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const projectId = button.getAttribute('data-project');
+                document.getElementById(`modal-${projectId}`).style.display = 'block';
+            });
+        });
+
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.project-modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            });
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('project-modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
