@@ -268,6 +268,62 @@
             font-weight: 600;
         }
 
+        /* Mobile Card Layout for Table */
+        .comparison-cards {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .comparison-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .card-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .card-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .card-value {
+            color: var(--gray);
+        }
+
+        .card-highlight {
+            background-color: #dbeafe;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
         /* Services Section */
         .services-grid {
             display: grid;
@@ -394,11 +450,11 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-             .hero-buttons {
+            .hero-buttons {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 15px;
-             }
+            }
             .mobile-menu-btn {
                 display: block;
             }
@@ -443,9 +499,13 @@
                 font-size: 1rem;
             }
 
+            /* Table to Cards Transformation */
             table {
-                display: block;
-                overflow-x: auto;
+                display: none;
+            }
+
+            .comparison-cards {
+                display: flex;
             }
 
             .security-notice {
@@ -540,6 +600,7 @@
             </div>
             
             <div class="comparison">
+                <!-- Desktop Table -->
                 <table>
                     <thead>
                         <tr>
@@ -576,6 +637,81 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <!-- Mobile Cards -->
+                <div class="comparison-cards">
+                    <div class="comparison-card">
+                        <div class="card-header">Focus</div>
+                        <div class="card-body">
+                            <div class="card-row">
+                                <div class="card-label">Traditional Developer</div>
+                                <div class="card-value">Stability, Scalability, Security, Maintainability</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">DAIPA</div>
+                                <div class="card-value card-highlight">Speed, Feature Validation, Rapid Feedback Cycles</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">The Outcome</div>
+                                <div class="card-value">Different priorities based on project stage</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <div class="card-header">Goal</div>
+                        <div class="card-body">
+                            <div class="card-row">
+                                <div class="card-label">Traditional Developer</div>
+                                <div class="card-value">Production-ready code (MVP)</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">DAIPA</div>
+                                <div class="card-value card-highlight">Functional Proof-of-Concept (POC)</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">The Outcome</div>
+                                <div class="card-value">Different deliverables for different needs</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <div class="card-header">Timeline</div>
+                        <div class="card-body">
+                            <div class="card-row">
+                                <div class="card-label">Traditional Developer</div>
+                                <div class="card-value">Weeks/Months</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">DAIPA</div>
+                                <div class="card-value card-highlight">Days (e.g., 48-72 hours)</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">The Outcome</div>
+                                <div class="card-value">Significant time savings for validation</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <div class="card-header">Code Status</div>
+                        <div class="card-body">
+                            <div class="card-row">
+                                <div class="card-label">Traditional Developer</div>
+                                <div class="card-value">Must be perfect and documented</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">DAIPA</div>
+                                <div class="card-value card-highlight">Must be functional and disposable</div>
+                            </div>
+                            <div class="card-row">
+                                <div class="card-label">The Outcome</div>
+                                <div class="card-value">Different quality standards for different purposes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -675,7 +811,7 @@
                         <i class="fab fa-twitter"></i>
                     </a>
                 </div>
-                <p>&copy; 2025 Your Name. All rights reserved.</p>
+                <p>&copy; 2025 Lethukuthula. All rights reserved.</p>
             </div>
         </div>
     </footer>
