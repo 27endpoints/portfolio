@@ -103,7 +103,7 @@
             margin: 0 auto;
         }
 
-        /* Projects Grid */
+        /* Projects Section */
         .projects-section {
             padding: 80px 0;
         }
@@ -138,6 +138,7 @@
             gap: 30px;
         }
 
+        /* Project Cards */
         .project-card {
             background: white;
             border-radius: 10px;
@@ -247,6 +248,11 @@
             color: black;
         }
 
+        .project-tag.rapid {
+            background: var(--secondary);
+            color: white;
+        }
+
         .project-content h3 {
             font-size: 1.4rem;
             margin-bottom: 10px;
@@ -286,30 +292,6 @@
         .status-in-progress {
             background: #fef3c7;
             color: #92400e;
-        }
-         /* Social Links */
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: var(--gray-light);
-            border-radius: 50%;
-            color: var(--dark);
-            transition: all 0.3s;
-        }
-
-        .social-links a:hover {
-            background-color: var(--primary);
-            color: white;
-            transform: translateY(-3px);
         }
 
         /* Project Modal */
@@ -355,6 +337,22 @@
             padding: 30px;
         }
 
+        .modal-body h3 {
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+
         .modal-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -379,6 +377,7 @@
             display: flex;
             gap: 15px;
             margin: 25px 0;
+            flex-wrap: wrap;
         }
 
         .modal-link {
@@ -428,14 +427,59 @@
             gap: 20px;
         }
 
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--gray-light);
+            border-radius: 50%;
+            color: var(--dark);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
             .mobile-menu-btn {
                 display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-bottom: 1px solid var(--gray-light);
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
             }
 
             .projects-grid {
@@ -589,14 +633,11 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Add more project cards as needed -->
             </div>
         </div>
     </section>
 
-    <!-- Project Modals -->
-    <!-- Modal for Project 1 -->
+    <!-- Project Modal -->
     <div class="project-modal" id="modal-1">
         <div class="modal-content">
             <div class="modal-header">
@@ -650,10 +691,8 @@
         </div>
     </div>
 
-    <!-- Add more modals for other projects -->
-
     <!-- Footer -->
-   <footer>
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="logo">DAIPA</div>
@@ -676,42 +715,41 @@
 
     <script>
         // Project Filtering
-        document.querySelectorAll('.filter-btn').forEach(button => {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(button => {
             button.addEventListener('click', () => {
                 // Update active button
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
+                filterBtns.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
 
                 // Filter projects
-                const filter = button.getAttribute('data-filter');
-                const projects = document.querySelectorAll('.project-card');
-
-                projects.forEach(project => {
-                    if (filter === 'all' || project.getAttribute('data-categories').includes(filter)) {
-                        project.style.display = 'block';
-                    } else {
-                        project.style.display = 'none';
-                    }
+                const filter = button.dataset.filter;
+                projectCards.forEach(project => {
+                    const categories = project.dataset.categories;
+                    project.style.display = (filter === 'all' || categories.includes(filter)) ? 'block' : 'none';
                 });
             });
         });
 
         // Project Modal functionality
-        document.querySelectorAll('.view-details').forEach(button => {
+        const viewDetailsBtns = document.querySelectorAll('.view-details');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        const modals = document.querySelectorAll('.project-modal');
+
+        viewDetailsBtns.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
-                const projectId = button.getAttribute('data-project');
-                document.getElementById(`modal-${projectId}`).style.display = 'block';
+                const projectId = button.dataset.project;
+                const modal = document.getElementById(`modal-${projectId}`);
+                if (modal) modal.style.display = 'block';
             });
         });
 
-        document.querySelectorAll('.close-modal').forEach(button => {
+        closeModalBtns.forEach(button => {
             button.addEventListener('click', () => {
-                document.querySelectorAll('.project-modal').forEach(modal => {
-                    modal.style.display = 'none';
-                });
+                modals.forEach(modal => modal.style.display = 'none');
             });
         });
 
@@ -723,8 +761,11 @@
         });
 
         // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
         });
     </script>
 </body>
