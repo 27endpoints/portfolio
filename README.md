@@ -69,9 +69,4 @@ For professional inquiries:
 
     Email: [Your Email Address]
 
-Note: To ensure focused communication and personal security, please connect via LinkedIn or email. Both are checked frequently.
-📄 License
-
-This project is open source and available under the MIT License.
-
 Built with ❤️ using modern web technologies
