@@ -53,20 +53,10 @@ Code Status	Perfect and documented	Functional and disposable
 
 This portfolio is deployed on GitHub Pages:
 
-    Repository name: username.github.io (replace with your username)
-
     Push code to main branch
 
     Enable GitHub Pages in repository settings
 
-    Site will be available at: https://username.github.io
-
-📞 Contact
-
-For professional inquiries:
-
-    LinkedIn: [Your LinkedIn Profile]
-
-    Email: [Your Email Address]
+    Site will be available at: https://27endpoints.github.io/porfolio/
 
 Built with ❤️ using modern web technologies
